@@ -1,21 +1,41 @@
-// import axios from "axios";
-import { useState } from "react";
-// import url from '../../data/user.json'
+import axios from "axios";
+import { useEffect, useState } from "react";
+import style from './style.module.css'
+import Thead from "./thead";
 
 
 
 const Users = () => {
-    // const [users,setUsers]=useState([]);
-    //  fetch(url.users)
-    // .then(res=>res.json())
-    // .then((data)=>{
+    const [users, setUsers] = useState([]);
 
-    // })
-    let a =useState();
-    console.log(a);
+    useEffect(() => {
+        axios.get('https://jsonplaceholder.typicode.com/users')
+            .then(({ data }) => {
+                setUsers(data);
+                console.log(data);
+            })
+    }, [])
+
     return (
         <>
-          
+            <h1 className={style.h1}>Users </h1>
+            <table className={style.users}>
+                <Thead />
+                <tbody>
+                    {
+                        users.map((user) =>
+                            <tr key={user.id}>
+                                <td>{user.id}</td>
+                                <td>{user.name}</td>
+                                <td>{user.username}</td>
+                                <td>{user.phone}</td>
+                                <td>{user.email}</td>
+                                <td>{user.address.city}</td>
+                            </tr>
+                        )
+                    }
+                </tbody>
+            </table>
         </>
     )
 }
